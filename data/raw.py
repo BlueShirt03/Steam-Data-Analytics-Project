@@ -1,9 +1,7 @@
 # Install dependencies as needed:
 # pip install kagglehub[pandas-datasets]
 import os
-
 import kagglehub
-from kagglehub import KaggleDatasetAdapter
 import pandas as pd
 
 # List all files in the dataset
@@ -19,24 +17,18 @@ import pandas as pd
       'reviews-6805-9035.csv', 
       'reviews-9035-11265.csv']"""
 
-# Set the path to the file you'd like to load
-path = kagglehub.dataset_download("forgemaster/steam-reviews-dataset")
+# Load the dataset (adjust the file name as needed)
 
-file_path = os.path.join(path, "reviews-11265-13495.csv")
-
-
-df = pd.read_csv(file_path, encoding="latin-1", engine="python", on_bad_lines="skip", nrows=10000)
-
-
-df = df.drop_duplicates()
+def load_data(nrows):
+    path = kagglehub.dataset_download("forgemaster/steam-reviews-dataset")
+    file_path = os.path.join(path, "reviews-11265-13495.csv")
+    df = pd.read_csv(file_path, encoding="latin-1", engine="python", on_bad_lines="skip", nrows=nrows)
+    return df
 
 
-df.columns = df.columns.str.strip()
+raw_data = load_data(50000)
 
-
-df = df.fillna("Unknown")
-
-print(df.info())
+print(raw_data.head())
 
 
 
