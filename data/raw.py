@@ -25,17 +25,36 @@ def load_data(nrows):
     return df
 
 # Cleans that data by removing any rows with missing values and duplicates, and also converts the 'review' column to lowercase for consistency.
-
 def clean_data(df):
     df = df.copy()
     df = df.drop_duplicates()
     df = df.dropna(subset=["review"])
     df["review"] = df["review"].str.lower()
-
     
     return df
 
-      
+# Feature engineering
+
+def feature_engineering(df):
+    df = df.copy()
+
+    #df["review_length_chars"] = df["review"].astype(str).str.len()
+    #df["review_length_words"] = df["review"].astype(str).str.split().str.len()
+    
+    if "playtime_forever" in df.columns:
+        df["playtime_hours"] = (df["playtime_forever"] / 60).round(2)
+        
+    if "voted_up" in df.columns and "voted_down" in df.columns:
+        df["total_votes"] = df["voted_up"] + df["voted_down"]
+        df["helpfulness_ratio"] = df["voted_up"] / df["voted_down"].replace(0, 1)
+    
+    if "unix_timestamp_created" in df.columns:
+        df["review_date"] = pd.to_datetime(df["unix_timestamp_created"], unit="s")
+        df["review_year"] = df["review_date"].dt.year
+        df["review_month"] = df["review_date"].dt.month
+    
+    return df
+
 
 
 
@@ -44,11 +63,14 @@ raw_data = load_data(50000)
 
 clean_df = clean_data(raw_data)
 
+final_df = feature_engineering(clean_df)
 
-print(raw_data.shape)
 
-print(clean_df.shape)
+print("Raw Data:")
+print(raw_data.head())
 
+print("Final Data:")
+print(final_df.head())
 
 
 
