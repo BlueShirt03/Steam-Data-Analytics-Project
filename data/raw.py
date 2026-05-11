@@ -50,8 +50,11 @@ def feature_engineering(df):
     df["review_length_chars"] = df["review"].astype(str).str.len()
     df["review_length_words"] = df["review"].astype(str).str.split().str.len()
     
-    if "playtime_forever" in df.columns:
+    if "playtime_forever" in df.columns and "playtime_at_review" in df.columns:
         df["playtime_hours"] = (df["playtime_forever"] / 60).round(2)
+        df["playtime_at_review_hours"] = (df["playtime_at_review"] / 60).round(2)
+    
+    
         
     if "voted_up" in df.columns and "votes_up" in df.columns:
         df["total_votes"] = df["voted_up"] + df["votes_up"]
@@ -75,6 +78,9 @@ clean_df = clean_data(raw_df)
 final_df = feature_engineering(clean_df)
 
 
+print(raw_df.head()['playtime_at_review'])
+print(final_df.head()['playtime_at_review'])
+
 #print("Raw DataFrame:")
 #print(raw_df.info())
 
@@ -85,13 +91,13 @@ final_df = feature_engineering(clean_df)
 
 #print(raw_df.head()['playtime_forever'])
 
-print(final_df['playtime_hours'].describe().round(2))
+"""print(final_df['playtime_hours'].describe().round(2))
 
 plt.scatter(final_df['review_length_words'], final_df['playtime_hours'], alpha=0.5)
 plt.title('Playtime Hours vs Review Length (Words)')
 plt.xlabel('Review Length (Words)')
 plt.ylabel('Playtime Hours')
-plt.show()
+plt.show()"""
 
 
 
