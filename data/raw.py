@@ -77,9 +77,14 @@ clean_df = clean_data(raw_df)
 
 final_df = feature_engineering(clean_df)
 
+#print("Raw DataFrame: for playtime_at_review")
+#print(raw_df.head()['playtime_at_review'])
 
-print(raw_df.head()['playtime_at_review'])
-print(final_df.head()['playtime_at_review'])
+#print("\nFinal DataFrame: for playtime_at_review_hours")
+#print(final_df.head()['playtime_at_review_hours'])
+
+print("\nSummary Statistics for playtime_at_review_hours:")
+print(final_df['playtime_at_review_hours'].describe().round(2))
 
 #print("Raw DataFrame:")
 #print(raw_df.info())
@@ -88,8 +93,8 @@ print(final_df.head()['playtime_at_review'])
 #print("Final DataFrame:")
 #print(final_df.info())
 
-
-#print(raw_df.head()['playtime_forever'])
+print("\nSummary Statistics for playtime_forever:")
+print(final_df['playtime_hours'].describe().round(2))
 
 """print(final_df['playtime_hours'].describe().round(2))
 
