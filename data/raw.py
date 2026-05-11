@@ -73,12 +73,25 @@ raw_df = load_data(nrows=50000)
 clean_df = clean_data(raw_df)
 
 final_df = feature_engineering(clean_df)
-final_df[["review_length_words", "votes_up"]].mean()
-print(final_df[["review_length_words", "votes_up"]].corr())
-print(final_df[["playtime_hours", "votes_up"]].corr())
 
 
+#print("Raw DataFrame:")
+#print(raw_df.info())
 
+
+#print("Final DataFrame:")
+#print(final_df.info())
+
+
+#print(raw_df.head()['playtime_forever'])
+
+print(final_df['playtime_hours'].describe().round(2))
+
+plt.scatter(final_df['review_length_words'], final_df['playtime_hours'], alpha=0.5)
+plt.title('Playtime Hours vs Review Length (Words)')
+plt.xlabel('Review Length (Words)')
+plt.ylabel('Playtime Hours')
+plt.show()
 
 
 
