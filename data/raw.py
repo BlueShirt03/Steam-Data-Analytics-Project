@@ -78,41 +78,14 @@ clean_df = clean_data(raw_df)
 
 final_df = feature_engineering(clean_df)
 
-#print("Raw DataFrame: for playtime_at_review")
-#print(raw_df.head()['playtime_at_review'])
+print("Raw DataFrame:")
+print(raw_df.head())
 
-#print("\nFinal DataFrame: for playtime_at_review_hours")
-#print(final_df.head()['playtime_at_review_hours'])
+print("\nCleaned DataFrame:")
+print(clean_df.head())
 
-
-
-#print("Raw DataFrame:")
-#print(raw_df.info())
-
-
-#print("Final DataFrame:")
-#print(final_df.info())
-
-
-
-
-
-print("\nSummary Statistics for votes_up:")
-print(final_df[['votes_up', 'review_length_words']].corr())
-print(final_df[['playtime_at_review_hours', 'review_length_words']].corr())
-
-
-
-
-
-filtered_df = final_df[(final_df['votes_up'] < 100) & (final_df['review_length_words'] < 500) & (final_df['votes_up'] != 0)]
-plt.figure(figsize=(12,7))
-plt.scatter(filtered_df['votes_up'], filtered_df['review_length_words'], alpha=0.15, s=10)
-
-plt.title('Votes Up vs Review Length (Words)')
-plt.xlabel('Votes Up')
-plt.ylabel('Review Length (Words)')
-plt.show()
+print("\nFinal DataFrame with Engineered Features:")
+print(final_df.head())  
 
 
 
