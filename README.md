@@ -35,7 +35,7 @@ This is a project taking data from Kaggle and trying to find out what makes a go
     - nrows was set to 50,000
     - filtered 'playtime_at_review_hours' to hours less than 200 hours
 
-- Code for the graphed
+- Code for the graph
     ```python
     raw_df = load_data(nrows=50000)
     clean_df = clean_data(raw_df)
@@ -78,3 +78,18 @@ This is a project taking data from Kaggle and trying to find out what makes a go
 - There were some extreme outliers, such as some people playing the game for 500+ hours and only writing a review that was 10–14 words long, while other people played for only 1–2 hours and wrote reviews that were 1,000+ words long. That is why the playtime hours were filtered to 200 hours or less.
 
 - Through this graph, we can see that there is a very weak relationship between playtime and review length. This means that increased playtime does not necessarily result in a longer review. 
+
+## Question: Does the length of a review make it a helpful review?
+# Tools and Code
+- columns that were used:
+    - 'review_length_words' (how long a review is via a word count)
+    - 'votes_up' (how many people found the vote helpful)
+
+- Type of graph and step for code:
+    - scatter polt 
+    - nrows was set to 50,000
+    - filtered 'review_length_words' was set to 500 or less. (this was because most review past this lenght begin to spread out farther.)
+    - filtered 'votes_up' to was set to 100 or less. (most reviews for not get pass 100 up votes)
+    - filtered 'votes_up' to drop any reviews that had 0 up votes. (the 0s was removed from the graph because it would make it harder to see a pattern.)
+
+- Code for graph

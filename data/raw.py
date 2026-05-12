@@ -35,6 +35,7 @@ def clean_data(df):
     if "voted_up" in df.columns:
         df["voted_up"] = df["voted_up"].astype(int)
     
+    
     vote_cols = ["votes_up", "votes_funny", "weighted_vote_score"]
     for col in vote_cols:
         if col in df.columns:
@@ -83,8 +84,7 @@ final_df = feature_engineering(clean_df)
 #print("\nFinal DataFrame: for playtime_at_review_hours")
 #print(final_df.head()['playtime_at_review_hours'])
 
-print("\nSummary Statistics for playtime_at_review_hours:")
-print(final_df['playtime_at_review_hours'].describe().round(2))
+
 
 #print("Raw DataFrame:")
 #print(raw_df.info())
@@ -93,31 +93,24 @@ print(final_df['playtime_at_review_hours'].describe().round(2))
 #print("Final DataFrame:")
 #print(final_df.info())
 
-print("\nSummary Statistics for playtime_forever:")
-print(final_df['playtime_hours'].describe().round(2))
 
 
-filtered_df = final_df[
-    final_df['playtime_at_review_hours'] < 200
-]
+
+
+print("\nSummary Statistics for votes_up:")
+print(final_df[['votes_up', 'review_length_words']].corr())
+
+
+
+
+
+filtered_df = final_df[(final_df['votes_up'] < 100) & (final_df['review_length_words'] < 500) & (final_df['votes_up'] != 0)]
 plt.figure(figsize=(12,7))
-plt.scatter(filtered_df['review_length_words'], filtered_df['playtime_at_review_hours'], alpha=0.15, s=10)
-plt.axhline(
-    y=filtered_df['playtime_at_review_hours'].median(), 
-    color='red', 
-    linestyle='--', 
-    label=f'Median Playtime at Review: {filtered_df["playtime_at_review_hours"].median():.2f} hours'
-)
-plt.axhline(
-    y=filtered_df['review_length_words'].median(), 
-    color='orange', 
-    linestyle='--', 
-    label=f'Median Review Length: {filtered_df["review_length_words"].median():.2f} words'
-)
-plt.title('Playtime Hours at Review vs Review Length (Words)')
-plt.xlabel('Review Length (Words)')
-plt.ylabel('Playtime Hours at Review')
-plt.legend()
+plt.scatter(filtered_df['votes_up'], filtered_df['review_length_words'], alpha=0.15, s=10)
+
+plt.title('Votes Up vs Review Length (Words)')
+plt.xlabel('Votes Up')
+plt.ylabel('Review Length (Words)')
 plt.show()
 
 
