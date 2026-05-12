@@ -96,13 +96,29 @@ print(final_df['playtime_at_review_hours'].describe().round(2))
 print("\nSummary Statistics for playtime_forever:")
 print(final_df['playtime_hours'].describe().round(2))
 
-"""print(final_df['playtime_hours'].describe().round(2))
 
-plt.scatter(final_df['review_length_words'], final_df['playtime_hours'], alpha=0.5)
-plt.title('Playtime Hours vs Review Length (Words)')
+filtered_df = final_df[
+    final_df['playtime_at_review_hours'] < 200
+]
+plt.figure(figsize=(12,7))
+plt.scatter(filtered_df['review_length_words'], filtered_df['playtime_at_review_hours'], alpha=0.15, s=10)
+plt.axhline(
+    y=filtered_df['playtime_at_review_hours'].median(), 
+    color='red', 
+    linestyle='--', 
+    label=f'Median Playtime at Review: {filtered_df["playtime_at_review_hours"].median():.2f} hours'
+)
+plt.axhline(
+    y=filtered_df['review_length_words'].median(), 
+    color='orange', 
+    linestyle='--', 
+    label=f'Median Review Length: {filtered_df["review_length_words"].median():.2f} words'
+)
+plt.title('Playtime Hours at Review vs Review Length (Words)')
 plt.xlabel('Review Length (Words)')
-plt.ylabel('Playtime Hours')
-plt.show()"""
+plt.ylabel('Playtime Hours at Review')
+plt.legend()
+plt.show()
 
 
 

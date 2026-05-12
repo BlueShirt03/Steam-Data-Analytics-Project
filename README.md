@@ -19,4 +19,62 @@ This is a project taking data from Kaggle and trying to find out what makes a go
 - In this function we add some new columns. The first ones being the review_length_chars and review_length_words. This were created so I can see how long reivews are and it also makes it eaiser to make some comparson that will be explored later in the project. We also created a "playtime_hours" which was done my taking playtime_forever and dividing it by 60 so we can have a better understanding on how long a user has actually played for. We also created a "total_votes" by adding both "voted_up" and "votes_up". We also did a helpfulness_ratio by dividing "voted_up" from "total_votes", this column is set to a 0 to 1 ratio. The final three columnes that where created have to do with time. Those columns being "review_date", "review_year", "review_month". The original "unix_timestamp_created" column was formated in a odd way, so these columns make it easir to see when a review was created.(I was trying to formate the review_date differently, however, I learned that we need unit set to "s", because the way in which the "unix_timestamp_created" column is formated. When I tried to do other dateing formats along with the to_datetime() function I got a lot of different errors.)
 
 
-#
+# updated feature_engineering function 
+- I was looking at some of the other columns and say that there is a column named "playtime_at_review" which tracks how many hours was played when the review was made. So I created a new column called "playtime_at_review_hours" which converts the time into hours so it is easier to read. 
+
+
+## Question: Does playing more hours make a review longer?
+# Tools and Code:
+- columns that were used:
+    - 'review_length_words' (how long a review is via a word count)
+    - 'playtime_at_review_hours' (how many hours the user had playing on the game before review)
+
+- Type of graph and step for code:
+    - scatter polt 
+    - median lines (two median lines were used for 'review_length_words' and  'playtime_at_review_hours') 
+    - nrows was set to 50,000
+    - filtered 'playtime_at_review_hours' to hours less than 200 hours
+
+- Code for the graphed
+    ```python
+    raw_df = load_data(nrows=50000)
+    clean_df = clean_data(raw_df)
+    final_df = feature_engineering(clean_df)
+
+    filtered_df = final_df[
+    final_df['playtime_at_review_hours'] < 200
+    ]
+
+    plt.figure(figsize=(12,7))
+    plt.scatter(filtered_df['review_length_words'], filtered_df['playtime_at_review_hours'], alpha=0.15, s=10)
+    plt.axhline(
+        y=filtered_df['playtime_at_review_hours'].median(), 
+        color='red', 
+        linestyle='--', 
+        label=f'Median Playtime at Review: {filtered_df["playtime_at_review_hours"].median():.2f} hours'
+    )
+    plt.axhline(
+        y=filtered_df['review_length_words'].median(), 
+        color='orange', 
+        linestyle='--', 
+        label=f'Median Review Length: {filtered_df["review_length_words"].median():.2f} words'
+    )
+    plt.title('Playtime Hours at Review vs Review Length (Words)')
+    plt.xlabel('Review Length (Words)')
+    plt.ylabel('Playtime Hours at Review')
+    plt.legend()
+    plt.show()
+
+    ```
+# Results/Insight:
+- When first looking at the graph, we can see that the data is heavily skewed to the left.
+
+- The graph also shows that there is a dense concentration of points near the lower left. This cluster can be seen with players that write about 20 words and have a playtime of about 10 hours.
+
+- We also see that most players leave short reviews. The median review length was 14 words. This means that players will not normally leave a very detailed review.
+
+- We also see that most players do not play the game for very long before they create the review. The median hours was about 10 hours. This could be caused by factors such as the type of game or how interesting and engaging the game was within the first ten hours.
+
+- There were some extreme outliers, such as some people playing the game for 500+ hours and only writing a review that was 10–14 words long, while other people played for only 1–2 hours and wrote reviews that were 1,000+ words long. That is why the playtime hours were filtered to 200 hours or less.
+
+- Through this graph, we can see that there is a very weak relationship between playtime and review length. This means that increased playtime does not necessarily result in a longer review. 
