@@ -5,7 +5,7 @@ import kagglehub
 import pandas as pd
 import matplotlib.pyplot as plt
 
-# List all files in the dataset
+# Dataset File Reference
 """ ['reviews-1-115.csv', 
       'reviews-11265-13495.csv', 
       'reviews-115-1230.csv', 
@@ -32,10 +32,13 @@ def clean_data(df):
     df = df.dropna(subset=["review"])
     df["review"] = df["review"].str.lower()
 
+
+    # Convert voted_up from True/False into 1/0 for analysis.
     if "voted_up" in df.columns:
         df["voted_up"] = df["voted_up"].astype(int)
     
     
+    # Fill missing vote-related columns with 0 and round values
     vote_cols = ["votes_up", "votes_funny", "weighted_vote_score"]
     for col in vote_cols:
         if col in df.columns:
@@ -44,23 +47,26 @@ def clean_data(df):
     return df
 
 # Feature engineering
-
 def feature_engineering(df):
     df = df.copy()
 
+    # creates new features based on the length of the review text
     df["review_length_chars"] = df["review"].astype(str).str.len()
     df["review_length_words"] = df["review"].astype(str).str.split().str.len()
     
+    #converts playtime from minutes to hours
     if "playtime_forever" in df.columns and "playtime_at_review" in df.columns:
         df["playtime_hours"] = (df["playtime_forever"] / 60).round(2)
         df["playtime_at_review_hours"] = (df["playtime_at_review"] / 60).round(2)
     
     
-        
+    # Create vote-related metrics.  
     if "voted_up" in df.columns and "votes_up" in df.columns:
         df["total_votes"] = df["voted_up"] + df["votes_up"]
         df["helpfulness_ratio"] = df["voted_up"] / df["total_votes"].replace(0, 1)
     
+
+    # Convert UNIX timestamp into readable date features.
     if "unix_timestamp_created" in df.columns:
         df["review_date"] =pd.to_datetime(df["unix_timestamp_created"],unit="s")
         df["review_year"] = df["review_date"].dt.year
@@ -71,13 +77,13 @@ def feature_engineering(df):
 
 
 
-
+# Pipeline Execution
 raw_df = load_data(nrows=50000)
-
 clean_df = clean_data(raw_df)
-
 final_df = feature_engineering(clean_df)
 
+
+# Output Preview
 print("Raw DataFrame:")
 print(raw_df.head())
 
