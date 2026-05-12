@@ -99,6 +99,7 @@ final_df = feature_engineering(clean_df)
 
 print("\nSummary Statistics for votes_up:")
 print(final_df[['votes_up', 'review_length_words']].corr())
+print(final_df[['playtime_at_review_hours', 'review_length_words']].corr())
 
 
 

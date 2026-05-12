@@ -109,4 +109,18 @@ This is a project taking data from Kaggle and trying to find out what makes a go
     plt.show()
     ```
 # Results/Insight:
+- We can see in this graph that the data is heavily left skewed.
+
+- The graph shows that there is a heavy concentration in the lower-left section of the graph. This cluster stays anywhere between 1–5 votes. After the graph passes 10 votes, the data becomes more inconsistent and spread out.
+
+- Most reviews get 1–5 votes regardless of how long or detailed the review is. This means that most reviews receive very little engagement regardless of review size.
+
+- I did notice that when the number of votes increases, more medium-to-long reviews become more apparent. This is because the graph becomes easier to read as the data becomes less concentrated compared to the lower vote ranges.
+
+- I also noticed that review length is not the only factor that makes a review useful. We can see this with some of the outliers, one of those being a review that is only 14 words long but received 59 up votes.
+
+- Upon further investigation of the review, I noticed that it was full of profanity and mocked the company Rockstar, which is a gaming company that created games such as GTA 5 and Red Dead Redemption.
+This means that other factors such as timing, game popularity, humor, and emotional response likely influence what is considered to be a helpful review.
+
+- Through this graph, we can see that there is not a very strong relationship between the length of a review and how many up votes that review received. However, there does appear to be a stronger relationship between these two factors compared to the previous graph involving playtime and review length.
 
