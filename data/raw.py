@@ -46,7 +46,7 @@ def clean_data(df):
     
     return df
 
-# Feature engineering
+# Feature engineering creates new features that will aid in analysis and modeling.
 def feature_engineering(df):
     df = df.copy()
 
