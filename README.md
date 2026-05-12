@@ -93,3 +93,20 @@ This is a project taking data from Kaggle and trying to find out what makes a go
     - filtered 'votes_up' to drop any reviews that had 0 up votes. (the 0s was removed from the graph because it would make it harder to see a pattern.)
 
 - Code for graph
+    ```python
+    raw_df = load_data(nrows=50000)
+    clean_df = clean_data(raw_df)
+    final_df = feature_engineering(clean_df)
+
+    filtered_df = final_df[(final_df['votes_up'] < 100) & (final_df['review_length_words'] < 500) & (final_df['votes_up'] != 0)]
+
+
+    plt.figure(figsize=(12,7))
+    plt.scatter(filtered_df['votes_up'], filtered_df['review_length_words'], alpha=0.15, s=10)
+    plt.title('Votes Up vs Review Length (Words)')
+    plt.xlabel('Votes Up')
+    plt.ylabel('Review Length (Words)')
+    plt.show()
+    ```
+# Results/Insight:
+
